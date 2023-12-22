@@ -54,9 +54,15 @@ class PurchaseItemView : MaterialCardView {
         "You will be automatically enrolled in a paid subscription at the end of the free period. " +
         "Cancel anytime during free period if you do not want to convert to a paid subscription. " +
         "Subscription will be automatically renewed and charged every $period."
-      viewPurchaseItemPrice.text =
-        "${item.subscriptionOfferDetails?.firstOrNull()?.pricingPhases?.pricingPhaseList?.firstOrNull()?.formattedPrice} " +
-        "/ $period"
+
+      val formattedPrice = item.subscriptionOfferDetails
+        ?.firstOrNull()
+        ?.pricingPhases
+        ?.pricingPhaseList
+        ?.firstOrNull { it.priceAmountMicros > 0L }
+        ?.formattedPrice
+
+      viewPurchaseItemPrice.text = "$formattedPrice / $period"
     }
   }
 
